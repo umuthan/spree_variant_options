@@ -202,7 +202,6 @@ function VariantOptions(params) {
     toggle();
     parent.nextAll().each(function(index, element) {
       disable($(element).find('a.option-value').show().removeClass('in-stock out-of-stock').addClass('locked').unbind('click'));
-      $(element).find('a.clear-button').hide();
     });
     show_all_variant_images();
   }
@@ -218,15 +217,23 @@ function VariantOptions(params) {
     variant = null;
     selection = [];
     var a = $(this);
-    if (!parent.has(a).length) {
-      clear(divs.index(a.parents('.variant-options:first')));
-    }
-    disable(buttons);
-    var a = enable(a.addClass('selected'));
-    parent.find('a.clear-button').css('display', 'block');
-    advance();
-    if (find_variant()) {
-      toggle();
+    if(a.hasClass('selected')) {
+      if (!parent.has(a).length) {
+        clear(divs.index(a.parents('.variant-options:first')));
+      }
+      disable(buttons);
+      a.addClass('unhovered');
+      a.bind('mouseleave', function(){ $(this).removeClass('unhovered'); });
+    } else {
+      if (!parent.has(a).length) {
+        clear(divs.index(a.parents('.variant-options:first')));
+      }
+      disable(buttons);
+      var a = enable(a.addClass('selected'));
+      advance();
+      if (find_variant()) {
+        toggle();
+      }
     }
   }
 
