@@ -117,57 +117,27 @@
       });
     }
 
-  function inventory(btns) {
-    var keys, variants, count = 0, selected = {};
-    var sels = jQuery.map(divs.find('a.selected'), function(i) { return i.rel });
-    jQuery.each(sels, function(key, value) {
-      key = value.split('-');
-      var v = options[key[0]][key[1]];
-      keys = Helpers.keys(v);
-      var m = Array.find_matches(selection.concat(keys));
-      if (selection.length == 0) {
-        selection = keys;
-      } else if (m) {
-        selection = m;
-      }
-    });
-    btns.removeClass('in-stock out-of-stock unavailable').each(function(i, element) {
-      variants = get_variant_objects(element.rel);
-      keys = Helpers.keys(variants);
-      if (keys.length == 0) {
-        disable(jQuery(element).addClass('unavailable locked').unbind('click'));
-      } else if (keys.length == 1) {
-        _var = variants[keys[0]];
-        jQuery(element).addClass((allow_backorders || _var.count) ? selection.length == 1 ? 'in-stock auto-click' : 'in-stock' : 'out-of-stock');
-      } else if (allow_backorders) {
-        jQuery(element).addClass('in-stock');
-      } else {
-        jQuery.each(variants, function(key, value) { count += value.count });
-        jQuery(element).addClass(count ? 'in-stock' : 'out-of-stock');
-      }
-    });
-  }
-
-  function get_variant_objects(rels) {
-    var i, ids, obj, variants = {};
-    if (typeof(rels) == 'string') { rels = [rels]; }
-    var otid, ovid, opt, opv;
-    i = rels.length;
-    try {
-      while (i--) {
-        ids = rels[i].split('-');
-        otid = ids[0];
-        ovid = ids[1];
-        opt = options[otid];
-        if (opt) {
-          opv = opt[ovid];
-          ids = Helpers.keys(opv);
-          if (opv && ids.length) {
-            var j = ids.length;
-            while (j--) {
-              obj = opv[ids[j]];
-              if (obj && Helpers.keys(obj).length && 0 <= selection.indexOf(obj.id.toString())) {
-                variants[obj.id] = obj;
+    function get_variant_objects(rels) {
+      var i, ids, obj, variants = {};
+      if (typeof(rels) == 'string') { rels = [rels]; }
+      var otid, ovid, opt, opv;
+      i = rels.length;
+      try {
+        while (i--) {
+          ids = rels[i].split('-');
+          otid = ids[0];
+          ovid = ids[1];
+          opt = options[otid];
+          if (opt) {
+            opv = opt[ovid];
+            ids = Helpers.keys(opv);
+            if (opv && ids.length) {
+              var j = ids.length;
+              while (j--) {
+                obj = opv[ids[j]];
+                if (obj && Helpers.keys(obj).length && 0 <= selection.indexOf(obj.id.toString())) {
+                  variants[obj.id] = obj;
+                }
               }
             }
           }
@@ -268,8 +238,6 @@
     }
 
     $(document).ready(init);
-
-    window.VariantOptions = VariantOptions;
-
   }
+  window.VariantOptions = VariantOptions;
 }(jQuery));
