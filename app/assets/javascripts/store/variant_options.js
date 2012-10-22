@@ -55,6 +55,10 @@
           $(this).find("ul.variant-option-values li a.in-stock:first").click();
         });
       }
+
+      // clicked the first variant to show other variants
+      divs.find("ul.variant-option-values>li>a.in-stock:first").click();
+
     }
 
     function get_index(parent) {
