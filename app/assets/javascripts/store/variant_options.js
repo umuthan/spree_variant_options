@@ -56,9 +56,6 @@
         });
       }
 
-      // clicked the first variant to show other variants
-      divs.find("ul.variant-option-values>li>a.in-stock:first").click();
-
     }
 
     function get_index(parent) {
@@ -194,8 +191,8 @@
         price = $('#product-price .price').addClass('unselected')
         // Replace product price by "(select)" only when there are at least 1 variant not out-of-stock
         variants = $("div.variant-options.index-0")
-        //if (variants.find("a.option-value.out-of-stock").length != variants.find("a.option-value").length)
-          //price.text('(select)');
+        if (variants.find("a.option-value.out-of-stock").length != variants.find("a.option-value").length)
+          price.text(' ');
       }
     }
 
