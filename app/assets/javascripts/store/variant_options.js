@@ -56,6 +56,8 @@
         });
       }
 
+      $(this).find("ul.variant-option-values li a.in-stock:first").click();
+
     }
 
     function get_index(parent) {
